@@ -1,27 +1,25 @@
-package com.vpn.myapplicationone.ui.activity;
+package com.demoapp.demoappbox.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.vpn.myapplicationone.R;
-import com.vpn.myapplicationone.model.User;
-import com.vpn.myapplicationone.viewmodel.UserViewModel;
+import com.demoapp.demoappbox.R;
+import com.demoapp.demoappbox.model.User;
+import com.demoapp.demoappbox.viewmodel.UserViewModelFirebase;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class CreateUserActivity extends AppCompatActivity {
     EditText etName, etRoll, etSubject;
     Button btnSave, btnShow;
-    UserViewModel viewModel;
+    UserViewModelFirebase viewModel;
     int userId = -1;
 
     @Override
@@ -35,7 +33,19 @@ public class CreateUserActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         btnShow = findViewById(R.id.btnShow);
 
-        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        if (auth.getCurrentUser() == null) {
+            auth.signInAnonymously()
+                    .addOnSuccessListener(result -> {
+                        Log.e("AUTH", "Anonymous login success: " + result.getUser().getUid());
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("AUTH", "Auth failed: " + e.getMessage());
+                    });
+        }
+
+        viewModel = new ViewModelProvider(this).get(UserViewModelFirebase.class);
 
         if (getIntent().hasExtra("id")) {
             userId = getIntent().getIntExtra("id", -1);
@@ -52,17 +62,22 @@ public class CreateUserActivity extends AppCompatActivity {
                 String roll = etRoll.getText().toString();
                 String subject = etSubject.getText().toString();
 
-                if (userId == -1) {
-                    viewModel.insert(new User(0, name, roll, subject));
-                    Toast.makeText(CreateUserActivity.this, "User Added", Toast.LENGTH_SHORT).show();
-                    etName.setText("");
-                    etRoll.setText("");
-                    etSubject.setText("");
-                } else {
-                    viewModel.update(new User(userId, name, roll, subject));
-                    Toast.makeText(CreateUserActivity.this, "User Updated", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
+                User user = new User(name, roll, subject);
+                viewModel.insert(user);
+
+                Toast.makeText(CreateUserActivity.this, "Saved to Firebase", Toast.LENGTH_SHORT).show();
+
+//                if (userId == -1) {
+//                    viewModel.insert(new User(0, name, roll, subject));
+//                    Toast.makeText(CreateUserActivity.this, "User Added", Toast.LENGTH_SHORT).show();
+//                    etName.setText("");
+//                    etRoll.setText("");
+//                    etSubject.setText("");
+//                } else {
+//                    viewModel.update(new User(userId, name, roll, subject));
+//                    Toast.makeText(CreateUserActivity.this, "User Updated", Toast.LENGTH_SHORT).show();
+//                    finish();
+//                }
             }
         });
 

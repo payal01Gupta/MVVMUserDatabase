@@ -1,4 +1,4 @@
-package com.vpn.myapplicationone.ui.adapter;
+package com.demoapp.demoappbox.ui.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.vpn.myapplicationone.R;
-import com.vpn.myapplicationone.model.User;
-import com.vpn.myapplicationone.ui.activity.ListUserActivity;
+import com.demoapp.demoappbox.R;
+import com.demoapp.demoappbox.model.User;
 
 import java.util.List;
 

@@ -1,25 +1,24 @@
-package com.vpn.myapplicationone.model;
+package com.demoapp.demoappbox.model;
 
 public class User {
-    private int id;
+  //  private int id;
     private String name;
     private String roll_number;
     private String subject;
 
-    public User(int id, String name, String roll, String subject) {
-        this.id = id;
+    public User(String name, String roll, String subject) {
         this.name = name;
         this.roll_number = roll;
         this.subject = subject;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public String getName() {
         return name;

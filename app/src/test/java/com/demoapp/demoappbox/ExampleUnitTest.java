@@ -1,4 +1,4 @@
-package com.vpn.myapplicationone;
+package com.demoapp.demoappbox;
 
 import org.junit.Test;
 

@@ -1,29 +1,24 @@
-package com.vpn.myapplicationone.ui.activity;
+package com.demoapp.demoappbox.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.vpn.myapplicationone.R;
-import com.vpn.myapplicationone.model.User;
-import com.vpn.myapplicationone.ui.adapter.ListUserAdapter;
-import com.vpn.myapplicationone.viewmodel.UserViewModel;
+import com.demoapp.demoappbox.R;
+import com.demoapp.demoappbox.model.User;
+import com.demoapp.demoappbox.ui.adapter.ListUserAdapter;
+import com.demoapp.demoappbox.viewmodel.UserViewModelFirebase;
 
 import java.util.List;
 
 public class ListUserActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    UserViewModel userViewModel;
+    UserViewModelFirebase userViewModel;
     ListUserAdapter adapter;
     List<User> list;
 
@@ -35,7 +30,7 @@ public class ListUserActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModelFirebase.class);
 
             userViewModel.getUsers().observe(this, users -> {
             adapter = new ListUserAdapter(users, this::onUserLongClick);
@@ -52,7 +47,7 @@ public class ListUserActivity extends AppCompatActivity {
     }
     private void openEdit(User user) {
         Intent i = new Intent(this, CreateUserActivity.class);
-        i.putExtra("id", user.getId());
+    //    i.putExtra("id", user.getId());
         i.putExtra("name", user.getName());
         i.putExtra("roll", user.getRoll_number());
         i.putExtra("subject", user.getSubject());

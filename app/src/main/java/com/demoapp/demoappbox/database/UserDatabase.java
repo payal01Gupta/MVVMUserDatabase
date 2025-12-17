@@ -1,4 +1,4 @@
-package com.vpn.myapplicationone.database;
+package com.demoapp.demoappbox.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
