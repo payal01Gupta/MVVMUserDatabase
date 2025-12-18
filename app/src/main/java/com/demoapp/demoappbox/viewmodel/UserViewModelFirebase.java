@@ -13,21 +13,18 @@ import com.demoapp.demoappbox.ui.repositories.UserRepository;
 import java.util.List;
 
 public class UserViewModelFirebase extends AndroidViewModel {
-    private UserRepository repository;
-    private MutableLiveData<List<User>> userList;
+    private final UserRepository repository;
 
     public UserViewModelFirebase(@NonNull Application application) {
         super(application);
         repository = new UserRepository();
-        userList = new MutableLiveData<>();
-        repository.getUsers(userList);
     }
 
-    public LiveData<List<User>> getUsers() {
-        return userList;
+    public void insert(String person, User user) {
+        repository.insert(person, user);
     }
 
-    public void insert(User user) {
-        repository.insert(user);
+    public LiveData<List<User>> getUsers(String person) {
+        return repository.getUsers(person);
     }
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/tab_one"
+        android:title="Payal"
+        android:icon="@android:drawable/ic_menu_myplaces"/>
+
+    <item
+        android:id="@+id/tab_two"
+        android:title="Ankita"
+        android:icon="@android:drawable/ic_menu_myplaces"/>
+
+    <item
+        android:id="@+id/tab_three"
+        android:title="Sultan"
+        android:icon="@android:drawable/ic_menu_myplaces"/>
+
+    <item
+        android:id="@+id/tab_four"
+        android:title="Manpreet"
+        android:icon="@android:drawable/ic_menu_myplaces"/>
+
+</menu>

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.demoapp.demoappbox.database.UserDatabase;
@@ -22,41 +23,38 @@ import java.util.List;
 
 public class UserRepository {
   //  private UserDatabase database;
+    private final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
 
-    private DatabaseReference databaseReference;
-
-    public UserRepository() {
-        Log.d("TEST_REPO", "UserRepository constructor called");
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("Payal");
-        Log.d("FIREBASE_PATH", FirebaseDatabase.getInstance()
-                        .getReference("Payal")
-                        .toString());
-    }
-    public void insert(User user) {
-        String id = databaseReference.push().getKey();
-        databaseReference.child(id).setValue(user);
+    public void insert(String person, User user) {
+        rootRef.child(person)
+                .push()
+                .setValue(user);
     }
 
-    public void getUsers(MutableLiveData<List<User>> userLiveData) {
+    public LiveData<List<User>> getUsers(String person) {
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+        MutableLiveData<List<User>> liveData = new MutableLiveData<>();
 
-                List<User> list = new ArrayList<>();
+        rootRef.child(person)
+                .addValueEventListener(new ValueEventListener() {
 
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    User user = ds.getValue(User.class);
-                    list.add(user);
-                }
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        List<User> list = new ArrayList<>();
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            User user = ds.getValue(User.class);
+                            list.add(user);
+                        }
+                        liveData.postValue(list);
+                    }
 
-                userLiveData.postValue(list);
-            }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) { }
+                });
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
-        });
+        return liveData;
+    }
+
     }
 
   /*  public UserRepository(Context context) {
